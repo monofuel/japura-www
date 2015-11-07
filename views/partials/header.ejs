@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- views/partials/header.ejs -->
+<div class="jumbotron text-center">
+  <img src="/images/japuraGaming.png" alt="Japura Gaming" href="/">
+</div>
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active"> <a href="/">Home</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Blogs<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/blog/monofuel">Monofuel</a></li>
+          </ul>
+        </li>
+        <!--<li><a href="/WebChat">WebChat</a></li>-->
+        <li><a href="/dynmap">Dynmap</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Github<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://github.com/monofuel">Monofuel</a></li>
+            <li><a href="https://github.com/monofuel/MonoMods">Minecraft Mods</a></li>
+            <li><a href="https://github.com/monofuel/badMars-JS">Bad Mars Server</a></li>
+            <li><a href="https://github.com/monofuel/badMars-Unreal">Bad Mars Client</a></li>
+            <li><a href="https://github.com/monofuel/Threest-CPP">Threest C++</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other Projects<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="https://japura.net/ffxivmc">FFXIVMC</a></li>
+            <li><a href="https://japura.net/badmars">Bad Mars</a></li>
+          </ul>
+        </li>
+        <li><a href="/about">About</a></li>
+        <li class="dropdown admin" style="display: none;">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="admin/market/">New Post</a></li>
+            <li><a href="admin/items/">Edit Post</a></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/auth/google"><span class="glyphicon glyphicon-log-in"></span> Google Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

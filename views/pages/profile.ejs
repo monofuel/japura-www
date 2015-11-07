@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<!-- views/pages/index.ejs -->
+
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <% include ../partials/header %>
+      </header>
+      <main>
+        <div class="container-fluid">
+           <div class="page-header text-center">
+        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+                    <p>
+                        <strong>id</strong>: <%= user.id %><br>
+                        <strong>token</strong>: <%= user.token %><br>
+                        <strong>email</strong>: <%= user.email %><br>
+                        <strong>name</strong>: <%= user.name %>
+                    </p>
+
+            </div>
+        </div>
+
+    </div>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <% include ../partials/footer %>
+    </footer>
+  </body>
+
+</html>

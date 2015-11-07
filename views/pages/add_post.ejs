@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<!-- views/pages/index.ejs -->
+
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+    <script src="/js/add_post.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <% include ../partials/header %>
+      </header>
+      <main>
+        <div class="container-main">
+          <div class="form-group">
+            <h2>Create New Post</h2>
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title">
+            <label for="body">Body:</label>
+            <textarea class="form-control" rows="10" id="body"></textarea>
+            <button type="button" class="btn btn-primary" onclick="submitPost()">Submit</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <% include ../partials/footer %>
+    </footer>
+  </body>
+
+</html>

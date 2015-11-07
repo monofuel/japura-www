@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<!-- views/pages/index.ejs -->
+
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+    <script src="/js/edit_post.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <% include ../partials/header %>
+      </header>
+      <main>
+        <div class="container-main">
+          <div class="form-group">
+            <h2>Edit Existing Post</h2>
+
+
+            <div class="dropdown">
+              <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Posts
+              <span class="caret"></span></button>
+              <ul class="dropdown-menu">
+                <% posts.forEach(function(post) { %>
+                <li><a onclick="select_post('<%= post._id %>')"><%= post.title %> - <%= post.user_id %></a></li>
+                <% }); %>
+              </ul>
+            </div>
+
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title"></input>
+            <label for="author">Author: </label>
+            <input type="text" class="form-control" id="author"></input>
+            <label for="timestamp">Time: </label>
+            <input type="text" class="form-control" id="timestamp"></input>
+            <label for="frontpage">Front Page:</label>
+            <input type="checkbox" id="frontpage"><br>
+            <label for="body">Body:</label>
+            <textarea class="form-control" rows="10" id="body"></textarea>
+            <button type="button" class="btn btn-primary" onclick="update_post()">Update</button>
+            <button type="button" class="btn btn-danger" onclick="delete_post()">Delete</button>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <% include ../partials/footer %>
+    </footer>
+  </body>
+
+</html>

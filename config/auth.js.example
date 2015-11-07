@@ -1,0 +1,8 @@
+module.exports = {
+
+  'googleAuth' : {
+    'clientID' : 'client id',
+    'clientSecret' : 'secret',
+    'callbackURL' : 'callback'
+  }
+}

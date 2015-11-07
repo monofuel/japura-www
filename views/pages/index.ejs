@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<!-- views/pages/index.ejs -->
+
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <% include ../partials/header %>
+      </header>
+      <main>
+        <div class="container-fluid">
+          <ul>
+            <% posts.forEach(function(post) { %>
+              <div class="well">
+                <li><h2 class="post_title"><%=post.title %></h2>
+                  <p class="post_content"><%- post.body %></p>
+                  <p class="date"><%= new Date(post.timestamp * 1000).toLocaleDateString() %></p>
+                  <!--<p class="author"><%= post.user_id %></p>-->
+                  <p class="author">Monofuel</p>
+                </li>
+              </div>
+            <% }); %>
+          </ul>
+        </div>
+      </main>
+    </div>
+    <footer class="footer">
+      <% include ../partials/footer %>
+    </footer>
+  </body>
+
+</html>
