@@ -1,9 +1,8 @@
 module.exports = {
 
-  googleAuth : {
-    clientID : '',
-    clientSecret : '',
-    callbackURL : 'http://dev.japura.net/auth/google/callback'
-    },
-  secret: ''
+  'googleAuth' : {
+    'clientID' : 'client id',
+    'clientSecret' : 'secret',
+    'callbackURL' : 'callback'
+  }
 }
