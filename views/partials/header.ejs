@@ -40,17 +40,24 @@
           </ul>
         </li>
         <li><a href="/about">About</a></li>
-        <li class="dropdown admin" style="display: none;">
+        <% if (user && user.admin) { %>
+        <li class="dropdown admin">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="admin/market/">New Post</a></li>
-            <li><a href="admin/items/">Edit Post</a></li>
+              <li><a href="/users">Users</a></li>
           </ul>
         </li>
+        <% } %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if (user) { %>
-            <li><a href="/profile"><%= user.name %></a></li>
+            <li class="dropdown admin">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li><a href="/profile">Profile</a></li>
+                  <li><a href="/logout">Logout</a></li>
+              </ul>
+            </li>
         <% } else { %>
             <li><a href="/auth/google"><span class="glyphicon glyphicon-log-in"></span> Google Login</a></li>
         <% } %>
