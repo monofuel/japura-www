@@ -7,7 +7,9 @@ module.exports = function(app,passport) {
     //TODO: only show front page posts
     Post.find().sort({timestamp: 'descending'}).limit(10).exec(function(err,posts) {
       res.render('pages/index',{
-        posts: posts
+        posts: posts,
+        user: req.user,
+        page: "home"
       });
     })
   });
@@ -17,7 +19,9 @@ module.exports = function(app,passport) {
     //TODO: only show posts for a specific user
     Post.find().sort({timestamp: 'descending'}).limit(10).exec(function(err,posts) {
       res.render('pages/index',{
-        posts: posts
+        posts: posts,
+        user: req.user,
+        page: "blogs"
       });
     });
   });
