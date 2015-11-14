@@ -132,6 +132,8 @@ module.exports = function (app, passport) {
     })
   });
 
+  //dynmap is with a lowercase D because i did it like that
+  //a long time ago and i didn't want to break anyone's bookmarks
   app.get('/dynmap', function (req, res) {
     res.render('pages/dynmap', {
       user: req.user,
@@ -143,6 +145,13 @@ module.exports = function (app, passport) {
     res.render('pages/webchat', {
       user: req.user,
       page: 'webchat'
+    })
+  });
+
+  app.get('/Threest', function (req, res) {
+    res.render('pages/threest', {
+      user: req.user,
+      page: 'projects'
     })
   });
 

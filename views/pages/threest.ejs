@@ -10,7 +10,57 @@
       </header>
       <main>
         <div class="container-fluid">
-        
+          <div class="well">
+            <h1>Threest</h1>
+            <p>Threest has been a (mostly) pointless project i've been making for fun.
+              It is an interpreted language that is similar to Forth. Currently it is
+              missing many important Forth words, which i need to work on! I named it Threest
+              because it is one slower than Forth.</p>
+            <p>Two goals that i have for Threest is support for a network attached dictionary,
+              and support for JSON objects and arrays for use on the stack.
+               If the device cannot find a word in a dictionary, it could have a list of
+              devices connected over serial or network servers that it could ask for word definitions.
+              Threest could be useful for an arduino with sending JSON formatted commands
+              to it, and recieving JSON formatted sensor info back from it. Being interpreted, it is also remotely
+              re-programmable.</p>
+            <p>Threest currently has two versions: one in
+              <a href="https://github.com/monofuel/Threest-CPP">C++</a>, and another in
+              <a href="https://github.com/monofuel/Threest-JS">Javascript</a>.
+              The C++ version runs on Windows, Linux, Mac and on an Arduino with more than 11k or so of memory.
+              The Javascript version runs in most web browsers, and is included below. I used
+              <a href="https://github.com/eosterberg/terminaljs">Terminal.js</a>
+              to create an interactive page for it, however it can still be ran from a real terminal.
+            </p>
+            <p>One example of a valid Threest word is:
+    <code><pre>: FIB ( n -- n' ) DUP 1 = IF DROP 1 ELSE DUP 2 = IF DROP 1 ELSE 1 - DUP 1 - RECURSE SWAP RECURSE + THEN THEN ;</pre></code>
+            Which can be used to calculate fibonacci numbers. After defining the word, you can return
+            <code>10 FIB .</code> to calculate the 10th fibonacci number. Of course, this the recursive method, so don't expect it to be fast.
+            </p>
+            <p>You can use the word <code>WORDS</code> to see all the defined words.
+              the flow control words of <code>IF ELSE THEN DO LOOP</code> aren't really words, and cannot be used unless
+              you are defining a word.
+            </p>
+            <p>Words can be defined starting with <code>:</code> and ending with <code>;</code>. The first word is the
+              name of the word being defined, and any following words are to be executed
+              when the word is called. for example:
+              <code><pre>: PI 22 7 / ;</pre></code>
+              Places an estimate of PI on the stack. You could then pop the value off the stack and display it with <code>.</code>
+              <code><pre>: PEEK DUP . ;</pre></code>
+              defines a word named 'PEEK'. this word will duplicate the value on the stack, and
+              print the duplicated value. the resulting stack will be identical to before it was ran.
+              Comments are surrounded by () and will be ignored.
+            </p>
+            <p>Known issues:
+              <ul>
+                <li>The Javascript version uses a hashmap for the dictionary, so function chaining does not work currently.</li>
+                <li>clicking on free space in the terminal doesn't give focus to the typing part of the terminal.</li>
+              </ul>
+            </p>
+            <p>If you are interested in learning forth, i recommend <a href="http://www.forth.com/starting-forth/">Starting Forth</a></p>
+          </div>
+
+          <!--hacky way to embed term in window -->
+          <iframe src="/threest_term/index.html" style="width:100%" height="700" id="dynframe"></iframe>
         </div>
       </main>
     </div>
