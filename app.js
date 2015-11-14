@@ -45,6 +45,7 @@ app.use(flash());
 //load all the routes
 require('./routes/Main')(app, passport);
 require('./routes/Post')(app, passport);
+require('./routes/User')(app, passport);
 
 //start server
 var server = app.listen(3000, function() {

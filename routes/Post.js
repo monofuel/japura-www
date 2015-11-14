@@ -1,39 +1,26 @@
-mongoose = require('mongoose');
-Post = mongoose.model('Post');
-User = mongoose.model('User');
+var mongoose = require('mongoose');
+var users = require('../util/users');
+var Post = mongoose.model('Post');
+var User = mongoose.model('User');
 
-function isLoggedIn(req, res, next) {
 
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated()) {
-	if (req.user.email == 'monofuel34089@gmail.com')
-            return next();
-    }
+module.exports = function (app) {
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-    console.log("unauthorized attempt to post")
-}
-
-module.exports = function(app) {
-
-  app.get("/post/:id", function(req,res,next) {
-    Post.findById(req.params.id,function(err,post) {
+  app.get("/post/:id", function (req, res, next) {
+    Post.findById(req.params.id, function (err, post) {
       if (!post)
         return next(err);
       return res.send(post);
     });
   });
 
-  //TODO authentication
-  app.post('/post',isLoggedIn, function(req,res,next) {
-  //app.post('/post', function(req,res,next) {
+  app.post('/post', users.isLoggedIn, function (req, res, next) {
 
     newPost = new Post(req.body);
-    newPost.timestamp = Math.floor(Date.now()/1000);
+    newPost.timestamp = Math.floor(Date.now() / 1000);
     newPost.user_id = req.user._id;
     console.log("new post: %s", newPost.title);
-    console.log("user: %s",JSON.stringify(req.user));
+    console.log("user: %s", JSON.stringify(req.user));
 
     if (!newPost) {
       res.status(500);
@@ -42,7 +29,7 @@ module.exports = function(app) {
       return;
     }
 
-    newPost.save(function(err) {
+    newPost.save(function (err) {
       if (err) {
         console.log(err);
         return next(err);
@@ -51,19 +38,19 @@ module.exports = function(app) {
       res.send(newPost);
     });
 
-    });
-  app.put('/post/:id',isLoggedIn, function(req,res,next) {
-    Post.findById(req.params.id,function(err,post) {
+  });
+  app.put('/post/:id', users.isLoggedIn, function (req, res, next) {
+    Post.findById(req.params.id, function (err, post) {
       if (!post)
         return next(err);
 
-      post.title = req.body.title
-      post.body = req.body.body
-      post.timestamp = req.body.timestamp
-      post.frontpage = req.body.frontpage
-      post.user_id = req.body.user_id
+      post.title = req.body.title;
+      post.body = req.body.body;
+      post.timestamp = req.body.timestamp;
+      post.frontpage = req.body.frontpage;
+      post.user_id = req.body.user_id;
 
-      post.save(function(err) {
+      post.save(function (err) {
         if (err)
           console.log('error updating post');
         else
@@ -72,8 +59,8 @@ module.exports = function(app) {
 
     });
   });
-  app.delete('/post/:id',isLoggedIn, function(req,res,next) {
-    Post.findById(req.params.id,function(err,post) {
+  app.delete('/post/:id', users.isLoggedIn, function (req, res, next) {
+    Post.findById(req.params.id, function (err, post) {
       console.log("removing " + post.title);
       post.remove();
     });

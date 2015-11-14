@@ -8,38 +8,59 @@
   <div class="container-fluid">
     <div>
       <ul class="nav navbar-nav">
+        <% if (page === 'home') { %>
         <li class="active"> <a href="/">Home</a></li>
-        <li class="dropdown">
+        <% } else { %>
+        <li> <a href="/">Home</a></li>
+        <% } %>
+        <% if (page === 'blogs') { %>
+        <li class="dropdown active">
+        <% } else { %>
+          <li class="dropdown">
+        <% } %>
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Blogs<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="/blog/monofuel">Monofuel</a></li>
             <% if (user) { %>
-                <li><a href="/blog/monofuel">Add Post</a></li>
-                <li><a href="/blog/monofuel">Edit Post</a></li>
+                <li><a href="/add_post">Add Post</a></li>
+                <li><a href="/edit_post">Edit Post</a></li>
             <% } %>
           </ul>
         </li>
         <!--<li><a href="/WebChat">WebChat</a></li>-->
+        <% if (page === 'dynmap') { %>
+        <li class="active"><a href="/dynmap">Dynmap</a></li>
+        <% } else { %>
         <li><a href="/dynmap">Dynmap</a></li>
-        <li class="dropdown">
+        <% } %>
+        <li class='dropdown'>
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Github<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="https://github.com/monofuel">Monofuel</a></li>
             <li><a href="https://github.com/monofuel/MonoMods">Minecraft Mods</a></li>
             <li><a href="https://github.com/monofuel/badMars-JS">Bad Mars Server</a></li>
             <li><a href="https://github.com/monofuel/badMars-Unreal">Bad Mars Client</a></li>
+            <li><a href="https://github.com/monofuel/Threest-JS">Threest JS</a></li>
             <li><a href="https://github.com/monofuel/Threest-CPP">Threest C++</a></li>
           </ul>
         </li>
+        <% if (page === 'projects') { %>
+        <li class="dropdown active">
+        <% } else { %>
         <li class="dropdown">
+        <% } %>
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other Projects<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="https://ffxivmc.japura.net">FFXIVMC</a></li>
-            <li><a href="https://badmars.japura.net">Bad Mars</a></li>
+            <li><a href="https://japura.net/ffxivmc">FFXIVMC</a></li>
+            <li><a href="https://japura.net/badmars">Bad Mars</a></li>
             <li><a href="/Threest">Threest</a></li>
           </ul>
         </li>
+        <% if (page === 'about') { %>
+        <li class="active"><a href="/about">About</a></li>
+        <% } else { %>
         <li><a href="/about">About</a></li>
+        <% } %>
         <% if (user && user.admin) { %>
         <li class="dropdown admin">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<span class="caret"></span></a>
@@ -51,13 +72,17 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <% if (user) { %>
-            <li class="dropdown admin">
-              <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li><a href="/profile">Profile</a></li>
-                  <li><a href="/logout">Logout</a></li>
-              </ul>
-            </li>
+          <% if (page === 'profile') { %>
+          <li class="dropdown active">
+          <% } else { %>
+          <li class="dropdown">
+          <% } %>
+            <a class="dropdown-toggle active" data-toggle="dropdown" href="#"><%= user.username %><span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+          </li>
         <% } else { %>
             <li><a href="/auth/google"><span class="glyphicon glyphicon-log-in"></span> Google Login</a></li>
         <% } %>

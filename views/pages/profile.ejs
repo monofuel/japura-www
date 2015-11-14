@@ -5,6 +5,7 @@
 <html lang="en">
   <head>
     <% include ../partials/head %>
+    <script src="/js/profile.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -13,29 +14,18 @@
       </header>
       <main>
         <div class="container-fluid">
-           <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-        <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-    </div>
-
-    <div class="row">
-
-        <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
-            <div class="well">
-                <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
-
-                    <p>
-                        <strong>id</strong>: <%= user.google.id %><br>
-                        <strong>token</strong>: <%= user.google.token %><br>
-                        <strong>email</strong>: <%= user.google.email %><br>
-                        <strong>name</strong>: <%= user.google.name %>
-                    </p>
-
-            </div>
-        </div>
-
-    </div>
+           <h1>Profile</h1>
+           <label for="title">Username:</label>
+           <input type="text" class="form-control" id="username" value="<%= user.username %>"></input>
+           <div style="display: none;" id="user_id"><%= user._id %></div>
+           <button type="button" class="btn btn-primary" onclick="update_username()">Update</button>
+           <h2>Attached Accounts:</h2>
+           <% if (user.google) { %>
+           <div class="well">
+             <h3>Google</h3>
+             <p><%= user.google.email %></p>
+           </div>
+           <% } %>
         </div>
       </main>
     </div>

@@ -1,86 +1,184 @@
 var mongoose = require('mongoose');
+// var q = require('q');
+var logger = require('../util/logger');
+var users = require('../util/users');
+mongoose.Promise = global.Promise;
 var Post = mongoose.model('Post');
+var User = mongoose.model('User');
 
+module.exports = function (app, passport) {
+  // TODO add support to / and /blog for range finds
+  // EG: latest 10 posts, latest 20 posts, etc.
+  app.get('/', function (req, res) {
+    logger.info('GET: / ', req);
+    // show the latest 10 front page posts
+    var frontPage = Post
+      .find({
+        frontpage: true
+      })
+      .sort({
+        timestamp: 'descending'
+      })
+      .limit(10)
+      .exec();
 
-module.exports = function(app,passport) {
-  app.get('/', function (req,res) {
-    //TODO: only show front page posts
-    Post.find().sort({timestamp: 'descending'}).limit(10).exec(function(err,posts) {
-      res.render('pages/index',{
-        posts: posts,
-        user: req.user,
-        page: "home"
+    frontPage
+      .then(function (posts) {
+        return users.addUsernameToPosts(posts)
+          .then(function () {
+            res.render('pages/index', {
+              posts: posts,
+              user: req.user,
+              page: 'home'
+            });
+          })
+          .catch(function (err) {
+            logger.error(err);
+            res.render('pages/error', {
+              user: req.user,
+              page: 'error'
+            });
+          });
+      })
+      .catch(function (err) {
+        logger.error(err);
+        res.render('pages/error', {
+          user: req.user,
+          page: 'error'
+        });
       });
+  });
+
+  app.get('/blog/:user', function (req, res) {
+    logger.info('GET: /blog/' + req.params.user + ' ', req);
+
+    User
+      .findOne({
+        username: req.params.user
+      })
+      .exec()
+      .then(function (user) {
+        return Post.find({
+            user_id: user._id
+          })
+          .sort({
+            timestamp: 'descending'
+          })
+          .limit(10)
+          .exec();
+      })
+      .then(function (posts) {
+        users.addUsernameToPosts(posts)
+          .then(function () {
+            res.render('pages/index', {
+              posts: posts,
+              user: req.user,
+              page: 'blogs'
+            });
+          })
+          .catch(function (err) {
+            logger.error(err);
+            res.render('pages/error', {
+              user: req.user,
+              page: 'error'
+            });
+          });
+      })
+      .catch(function (err) {
+        logger.error(err);
+        res.render('pages/error', {
+          user: req.user,
+          page: 'error'
+        });
+      });
+  });
+
+  app.get('/add_post', function (req, res) {
+    logger.info('GET: /add_post ', req);
+    res.render('pages/add_post', {
+      user: req.user,
+      page: 'add_post'
+    });
+  });
+
+  app.get('/edit_post', users.isLoggedIn, function (req, res) {
+    logger.info('GET: /edit_post ', req);
+
+    var allPosts = Post.find()
+      .sort({
+        timestamp: 'descending'
+      })
+      .exec();
+    allPosts.then(function (posts) {
+        res.render('pages/edit_post', {
+          user: req.user,
+          posts: posts,
+          page: 'edit_post'
+        });
+      })
+      .catch(function (err) {
+        logger.error(err);
+        res.render('pages/error', {
+          user: req.user,
+          page: 'error'
+        });
+      });
+  });
+
+  app.get('/about', function (req, res) {
+    res.render('pages/about', {
+      user: req.user,
+      page: 'about'
     })
   });
 
-  app.get('/blog/:user', function (req,res) {
-    //req.params.user
-    //TODO: only show posts for a specific user
-    Post.find().sort({timestamp: 'descending'}).limit(10).exec(function(err,posts) {
-      res.render('pages/index',{
-        posts: posts,
-        user: req.user,
-        page: "blogs"
-      });
-    });
+  app.get('/dynmap', function (req, res) {
+    res.render('pages/dynmap', {
+      user: req.user,
+      page: 'dynmap'
+    })
   });
 
-  app.get('/add_post', function (req,res) {
-    res.render('pages/add_post');
-  });
-
-  app.get('/edit_post', function (req,res) {
-    //TODO: only show front page posts
-    Post.find().sort({timestamp: 'descending'}).exec(function(err,posts) {
-      res.render('pages/edit_post',{
-        posts: posts
-      });
-    });
-  });
-
-  app.get('/about', function (req,res) {
-    res.render('pages/about');
-  });
-
-  app.get('/dynmap', function (req,res) {
-    res.render('pages/dynmap');
-  });
-
-  app.get('/WebChat', function (req,res) {
-    res.render('pages/webchat');
+  app.get('/WebChat', function (req, res) {
+    res.render('pages/webchat', {
+      user: req.user,
+      page: 'webchat'
+    })
   });
 
   // route middleware to make sure a user is logged in
   function isLoggedIn(req, res, next) {
 
-      // if user is authenticated in the session, carry on
-      if (req.isAuthenticated())
-          return next();
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+      return next();
 
-      // if they aren't redirect them to the home page
-      res.redirect('/');
+    // if they aren't redirect them to the home page
+    res.redirect('/');
   }
 
-  app.get('/profile', isLoggedIn, function(req, res) {
+  app.get('/profile', users.isLoggedIn, function (req, res) {
     res.render('pages/profile', {
-      user : req.user // get the user out of session and pass to template
+      user: req.user,
+      page: 'profile'
     });
   });
 
-  app.get('/logout', function(req, res) {
+  app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
   });
 
-  app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+  app.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email']
+  }));
 
   // the callback after google has authenticated the user
   app.get('/auth/google/callback',
-          passport.authenticate('google', {
-                  successRedirect : '/profile',
-                  failureRedirect : '/'
-          }));
+    passport.authenticate('google', {
+      successRedirect: '/profile',
+      failureRedirect: '/'
+    }));
 
 
 };

@@ -9,4 +9,4 @@ PostSchema = new mongoose.Schema({
   user_id: String
 });
 
-mongoose.model('Post',PostSchema);
+mongoose.model('Post', PostSchema);

@@ -44,7 +44,7 @@ function update_post() {
 
   selected_post.title = document.getElementById('title').value;
   selected_post.body = document.getElementById('body').value;
-  selected_post.author = document.getElementById('author').value;
+  selected_post.user_id = document.getElementById('author').value;
   selected_post.timestamp = new Date (document.getElementById('timestamp').value).getTime() / 1000;
   selected_post.frontpage = document.getElementById('frontpage').value;
 

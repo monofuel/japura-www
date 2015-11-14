@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-<!-- views/pages/index.ejs -->
-
 <html lang="en">
   <head>
     <% include ../partials/head %>
@@ -19,8 +16,7 @@
                 <li><h2 class="post_title"><%=post.title %></h2>
                   <p class="post_content"><%- post.body %></p>
                   <p class="date"><%= new Date(post.timestamp * 1000).toLocaleDateString() %></p>
-                  <!--<p class="author"><%= post.user_id %></p>-->
-                  <p class="author">Monofuel</p>
+                  <p class="author"><%= post.username %></p>
                 </li>
               </div>
             <% }); %>
