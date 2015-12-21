@@ -1,4 +1,5 @@
 //Monofuel 2015
+'use strict';
 
 //load node modules
 var express = require('express');
@@ -9,6 +10,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var mongoDBStore = require('connect-mongodb-session')(session);
 
 //load local files
 var auth = require('./config/auth');
@@ -21,6 +23,20 @@ var serverAddress = 'mongodb://' + dbConfig.server + '/japura';
 mongoose.connect(serverAddress);
 console.log('connected to DB at %s',serverAddress);
 
+
+var store = new mongoDBStore(
+      {
+        uri: 'mongodb://' + dbConfig.server + '/japura',
+        collection: 'sessions'
+      });
+
+// Catch errors
+store.on('error', function(error) {
+  assert.ifError(error);
+  assert.ok(false);
+});
+
+
 //load passport config
 require('./config/passport')(passport);
 
@@ -32,10 +48,20 @@ app.set('trust proxy', true); //behind an nginx proxy
 //load static html files from ./public
 app.use(express.static(path.join(__dirname, 'public')));
 
+//must be done before initializing passport
+app.use(session({
+  secret: auth.secret,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  },
+  store: store
+}));
+
+
 //handle cookies and stuff for passport
 app.use(cookieParser());
 app.use(bodyParser());
-app.use(session({ secret: auth.secret}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 

@@ -1,7 +1,10 @@
-all: core_js models_js routes_js util_js public_js
+all: core_js models_js routes_js util_js public_js docs
 
 start:
 	supervisor -w ./app.js,./models/,./routes/,./util/,./config/ app.js
+
+docs:
+	apidoc -o public/apidoc -i routes/
 
 watch: watch_core_js watch_routes_js watch_models_js watch_util_js watch_public_js watch_views.js
 

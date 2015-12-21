@@ -92,8 +92,7 @@ module.exports = function (app, passport) {
         });
       });
   });
-
-  app.get('/add_post', function (req, res) {
+  app.get('/add_post',  users.isLoggedIn, function (req, res) {
     logger.info('GET: /add_post ', req);
     res.render('pages/add_post', {
       user: req.user,
@@ -154,17 +153,6 @@ module.exports = function (app, passport) {
       page: 'projects'
     })
   });
-
-  // route middleware to make sure a user is logged in
-  function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
-    if (req.isAuthenticated())
-      return next();
-
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-  }
 
   app.get('/profile', users.isLoggedIn, function (req, res) {
     res.render('pages/profile', {

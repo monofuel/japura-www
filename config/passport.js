@@ -1,3 +1,6 @@
+//Monofuel 2015
+'use strict'
+
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var mongoose = require('mongoose');
@@ -15,7 +18,10 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser(function(id,done) {
+    console.log('deserializing user: ' + id)
     User.findById(id ,function(err,user) {
+      console.log('deserialized')
+      console.log(user)
       done(err,user);
     });
   });

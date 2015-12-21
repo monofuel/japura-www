@@ -6,6 +6,19 @@ var User = mongoose.model('User');
 
 module.exports = function (app) {
 
+  /**
+ * @api {get} /post/:id Request a specific post
+ * @apiName GetPost
+ * @apiGroup Posts
+ *
+ * @apiParam {String} id Unique post ID
+ *
+ * @apiSuccess {String} title Title of the post
+ * @apiSuccess {String} body Contents of post
+ * @apiSuccess {Number} timestamp unix timestamp when posted
+ * @apiSuccess {Boolean} frontpage Should this be on the frontpage
+ * @apiSuccess {String} id User ID of the author
+ */
   app.get("/post/:id", function (req, res, next) {
     Post.findById(req.params.id, function (err, post) {
       if (!post)

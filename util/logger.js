@@ -10,7 +10,11 @@ module.exports.info = function reportInfo(info, req) {
   var timestamp = new Date();
 
   if (req) {
-    console.log("INFO: " + timestamp.toTimeString() + " : " + info + " FROM: " + req.ip);
+    if (req.isAuthenticated())
+      console.log("INFO: " + timestamp.toTimeString() + " : " + info + " FROM: " + req.ip + " USER: " + req.user.username);
+    else {
+      console.log("INFO: " + timestamp.toTimeString() + " : " + info + " FROM: " + req.ip);
+    }
   } else {
     console.log("INFO: " + timestamp.toTimeString() + " : " + info);
   }

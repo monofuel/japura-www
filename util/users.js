@@ -7,7 +7,8 @@ var logger = require('./logger');
 //route
 module.exports.isLoggedIn = function (req, res, next) {
 
-  // if user is authenticated in the session, carry on
+  // if user is authenticated in the session, move along
+  // these are not the droids you are looking for
   if (req.isAuthenticated()) {
     if (req.user.google.email == 'monofuel34089@gmail.com') //restrict to admin
       return next();
