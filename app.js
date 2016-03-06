@@ -20,6 +20,7 @@ var dbConfig = require('./config/db');
 require('./models/User');
 require('./models/Post');
 var serverAddress = 'mongodb://' + dbConfig.server + '/japura';
+console.log("connecting to mongodb at " + serverAddress)
 mongoose.connect(serverAddress);
 console.log('connected to DB at %s',serverAddress);
 
