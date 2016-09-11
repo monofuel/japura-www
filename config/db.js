@@ -1,7 +1,7 @@
 var env = process.env.NODE_ENV || 'dev';
 if (env === 'production') {
 	module.exports = {
-		server: '10.128.0.2'
+		server: process.env.DB_SERVER
 	}
 } else {
 	module.exports = {

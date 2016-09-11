@@ -27,7 +27,7 @@ console.log('connected to DB at %s',serverAddress);
 
 var store = new mongoDBStore(
       {
-        uri: 'mongodb://' + dbConfig.server + '/japura',
+        uri: serverAddress,
         collection: 'sessions'
       });
 
